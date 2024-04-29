@@ -5,7 +5,7 @@
 -- country, enumeration of countries: US, CO and TN, never null (= default will be the first element of the enumeration, here US)
 
 -- DROP TABLE IF EXISTS users;
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id INT NOT NULL AUTO_INCREMENT,
   email VARCHAR(255) UNIQUE NOT NULL,
   name VARCHAR(255),
