@@ -9,10 +9,7 @@ def schools_by_topic(mongo_collection, topic):
     list_ = []
     schools = mongo_collection.find({})
     for school in schools:
-        print(school.keys())
-        try:
-            if topic in school["topics"]:
-                list_.append(school)
-        except:
-            pass
+        print(school.keys)
+        if topic in school["topics"]:
+            list_.append(school)
     return list_
