@@ -2,14 +2,20 @@
 '''this module contains a  Python function
 that lists all documents in a collection'''
 from pymongo import MongoClient
-
-
-def schools_by_topic(mongo_collection, topic):
-    ''' returns the list of school having a specific topic:'''
-    list_ = []
-    schools = mongo_collection.find({})
-    for school in schools:
-        print(school.keys)
-        if topic in school["topics"]:
-            list_.append(school)
-    return list_
+client = MongoClient()
+db = client.logs
+collection = db.nginx
+print(f'{collection.count_documents({})} logs')
+print("Methods:")
+get = collection.count_documents({"method": "GET"})
+post = collection.count_documents({"method": "POST"})
+put = collection.count_documents({"method": "PUT"})
+patch = collection.count_documents({"method": "PATCH"})
+delete = collection.count_documents({"method": "DELETE"})
+stat = collection.count_documents({"method": "GET", "path": "/status"})
+print(f'    method GET: {get}')
+print(f'    method POST: {post}')
+print(f'    method PUT: {put}')
+print(f'    method PATCH: {patch}')
+print(f'    method DELETE: {delete}')
+print(f'{stat} status check')
