@@ -3,22 +3,17 @@
 that lists all documents in a collection'''
 
 
-if __name__ == "__main__":
-    from pymongo import MongoClient
-    client = MongoClient()
-    db = client.logs
-    collection = db.nginx
-    print(f'{collection.count_documents({})} logs')
-    print("Methods:")
-    get = collection.count_documents({"method": "GET"})
-    post = collection.count_documents({"method": "POST"})
-    put = collection.count_documents({"method": "PUT"})
-    patch = collection.count_documents({"method": "PATCH"})
-    delete = collection.count_documents({"method": "DELETE"})
-    stat = collection.count_documents({"method": "GET", "path": "/status"})
-    print(f'    method GET: {get}')
-    print(f'    method POST: {post}')
-    print(f'    method PUT: {put}')
-    print(f'    method PATCH: {patch}')
-    print(f'    method DELETE: {delete}')
-    print(f'{stat} status check')
+def top_students(mongo_collection):
+    '''returns all students sorted by average score:'''
+    docs = mongo_collection.find({})
+    for doc in docs:
+        topics = doc["topics"]
+        score = 0
+        for topic in topics:
+            score += topic["score"]
+        avg = score / len(topics)
+        mongo_collection.update_one(doc, {'$set': {"averageScore": avg}})
+        # doc["averageScore"] =  avg
+    new_docs = mongo_collection.find({})
+    return sorted(new_docs, reverse=True, key=lambda doc:
+                  doc.get("averageScore"))
