@@ -8,14 +8,14 @@ if __name__ == "__main__":
     client = MongoClient()
     db = client.logs
     collection = db.nginx
-    print(f'{collection.count_documents({})} logs')
-    print("Methods:")
     get = collection.count_documents({"method": "GET"})
     post = collection.count_documents({"method": "POST"})
     put = collection.count_documents({"method": "PUT"})
     patch = collection.count_documents({"method": "PATCH"})
     delete = collection.count_documents({"method": "DELETE"})
     stat = collection.count_documents({"method": "GET", "path": "/status"})
+    print(f'{collection.count_documents({})} logs')
+    print("Methods:")
     print(f'    method GET: {get}')
     print(f'    method POST: {post}')
     print(f'    method PUT: {put}')
